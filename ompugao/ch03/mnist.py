@@ -36,10 +36,18 @@ if __name__ == '__main__':
     accuracy_count = 0
     network = init_network()
     x, t = get_data()
-    for i in range(len(x)):
-        y = predict(network,x[i])
-        p = np.argmax(y) #use the most probable index
-        if p == t[i]:
-            accuracy_count+=1
-    print("accuracy: ", str(float(accuracy_count/len(x))))
+    batch_size = 100
 
+    if batch_size is None:
+        for i in range(len(x)):
+            y = predict(network,x[i])
+            p = np.argmax(y) #use the most probable index
+            if p == t[i]:
+                accuracy_count+=1
+    else:
+        for i in range(0, len(x), batch_size):
+            x_batch = x[i:i+batch_size]
+            y_batch = predict(network, x_batch)
+            p = np.argmax(y_batch, axis=1)
+            accuracy_count += np.sum(p == t[i:i+batch_size])
+    print("accuracy: ", str(float(accuracy_count/len(x))))
