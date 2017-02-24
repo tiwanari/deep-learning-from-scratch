@@ -7,6 +7,9 @@ def step_function(x):
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
+def sigmoid_grad(x):
+    return (1.0 - sigmoid(x)) * sigmoid(x)
+
 # rectified linear unit
 def relu(x):
     return np.maximum(0, x)
@@ -14,15 +17,25 @@ def relu(x):
 def identity_function(x):
     return x
 
-def softmax(a):
-    # this implementation causes overflow
-    #exp_a = np.exp(a)
-    #y = exp_a / np.sum(exp_a)
-    #return y
-    c = np.max(a)
-    exp_a = np.exp(a - c) # fix for overflow
-    y = exp_a / np.sum(exp_a)
-    return y
+# def softmax(a):
+#     # this implementation causes overflow
+#     #exp_a = np.exp(a)
+#     #y = exp_a / np.sum(exp_a)
+#     #return y
+#     c = np.max(a)
+#     exp_a = np.exp(a - c) # fix for overflow
+#     y = exp_a / np.sum(exp_a)
+#     return y
+
+def softmax(x):
+    if x.ndim == 2:
+        x = x.T
+        x = x - np.max(x, axis=0)
+        y = np.exp(x) / np.sum(np.exp(x), axis=0)
+        return y.T 
+
+    x = x - np.max(x) # オーバーフロー対策
+    return np.exp(x) / np.sum(np.exp(x))
 
 
 # 出力層で利用する活性化関数は
