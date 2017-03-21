@@ -6,15 +6,15 @@ from sigmoid import sigmoid
 
 def init_network():
     network = {
-        'W1': np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]]),
-        'W2': np.array([[0.1, 0.4], [0.2, 0.5], [0.3, 0.6]]),
-        'W3': np.array([[0.1, 0.3], [0.2, 0.4]]),
-        'b1': np.array([0.1, 0.2, 0.3]),
-        'b2': np.array([0.1, 0.2]),
-        'b3': np.array([0.1, 0.2]),
+        'W1': [[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]],
+        'W2': [[0.1, 0.4], [0.2, 0.5], [0.3, 0.6]],
+        'W3': [[0.1, 0.3], [0.2, 0.4]],
+        'b1': [0.1, 0.2, 0.3],
+        'b2': [0.1, 0.2],
+        'b3': [0.1, 0.2],
     }
 
-    return network
+    return {k: np.array(v) for k, v in network.items()}
 
 
 def forward(network, x):
